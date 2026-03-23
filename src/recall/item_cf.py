@@ -2,7 +2,6 @@ from collections import defaultdict
 from tqdm import tqdm
 
 def _create_nested_dict():
-    """用于 defaultdict 的辅助函数，可被 pickle 序列化"""
     return defaultdict(int)
 
 class ItemCF:
@@ -11,7 +10,6 @@ class ItemCF:
         self.item_popular = defaultdict(int)
         
     def fit(self, df):
-        """基于历史数据构建共现矩阵"""
         user_seqs = df.groupby('buyer_admin_id')['item_id'].apply(list).to_dict()
         
         for user, seq in tqdm(user_seqs.items(), desc="Training Item-CF"):

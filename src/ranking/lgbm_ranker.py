@@ -12,7 +12,6 @@ class LGBMRanker:
         self.cat_features = ['cate_id', 'store_id']
         
     def fit(self, df_train):
-        """训练排序模型 (CPU)"""
         print("Training LightGBM")
         X_train = df_train[self.features]
         y_train = df_train['label']

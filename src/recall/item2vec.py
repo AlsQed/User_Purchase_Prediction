@@ -7,7 +7,6 @@ class Item2VecRecall:
         self.model = None
         
     def fit(self, df):
-        """训练 Word2Vec 模型"""
         sentences = df.groupby('buyer_admin_id')['item_id'].apply(list).tolist()
         print("Training Item2Vec")
         self.model = Word2Vec(

@@ -18,13 +18,11 @@ def main():
     user_hist_dict = df_train_hist.groupby('buyer_admin_id')['item_id'].apply(list).to_dict()
     user_label_dict = df_val_label.set_index('buyer_admin_id')['item_id'].to_dict()
 
-    # 模型文件路径
     item_cf_path = os.path.join(MODEL_DIR, 'item_cf.pkl')
     item2vec_path = os.path.join(MODEL_DIR, 'item2vec.pkl')
     lgbm_ranker_path = os.path.join(MODEL_DIR, 'lgbm_ranker.pkl')
 
     print("Training Recall Models")
-    # 检查并训练 ItemCF
     if os.path.exists(item_cf_path):
         item_cf = joblib.load(item_cf_path)
     else:
@@ -32,7 +30,6 @@ def main():
         item_cf.fit(df_train_hist)
         joblib.dump(item_cf, item_cf_path)
 
-    # 检查并训练 Item2Vec
     if os.path.exists(item2vec_path):
         item2vec = joblib.load(item2vec_path)
     else:
@@ -41,11 +38,9 @@ def main():
         joblib.dump(item2vec, item2vec_path)
 
     print("Building Ranking Dataset")
-    # 传入 item_df 拼接商品特征
     df_rank_train = build_ranking_dataset(user_hist_dict, item_cf, item2vec, item_df, labels=user_label_dict)
 
     print("Training Ranking Model")
-    # 检查并训练 LGBMRanker
     if os.path.exists(lgbm_ranker_path):
         ranker = joblib.load(lgbm_ranker_path)
     else:

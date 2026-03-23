@@ -2,9 +2,7 @@ import pandas as pd
 from tqdm import tqdm
 
 def build_ranking_dataset(user_seqs, recall_cf, recall_i2v, item_df, labels=None):
-    """
-    构造排序模型所需的特征数据集，并拼接商品属性
-    """
+
     dataset = []
     
     for user, hist in tqdm(user_seqs.items(), desc="Building Base Features"):
